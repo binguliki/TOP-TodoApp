@@ -1,7 +1,7 @@
 import Project from './Project';
 import TodoItem from './TodoItem';
 
-export default AppController = () => {
+const AppController = () => {
     const projects = {}
     const getProjects = () => {
         return projects;
@@ -41,3 +41,5 @@ export default AppController = () => {
         toggleTodo
     }
 }
+
+export default AppController;

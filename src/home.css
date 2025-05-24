@@ -9,10 +9,15 @@
 body {
     background-color: #f3f4f6;
     margin: 0;
+    font-family: var(--content-font);
 }
-h1, h2, h3{
+
+h1,
+h2,
+h3 {
     font-family: var(--heading-font);
 }
+
 header {
     background-color: #ffffff;
     border-bottom: 1px solid #22c55e;
@@ -71,21 +76,132 @@ header {
 .icon .fa-circle-check {
     color: #22c55e;
     font-size: 24px;
+    border: 1px solid #1f2937;
+    border-radius: 100%;
 }
-
-.sidebar {
+main{
     position: fixed;
+    width: 100%;
     top: calc(var(--header-height) + 1.5rem);
     left: 0;
-    width: 25%;
     height: calc(100vh - calc(var(--header-height) + 1.5rem));
+}
+.main-container{
+    display: flex;
+    height: 100%;
+}
+.sidebar {
+    display: none;
+    width: 25%;
+    height: 100%;
     background: #ffffff;
     border-right: 1px solid #22c55e;
     padding: 0.75rem;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
 }
 
 .sidebar.active {
-    transform: translateX(0);
+    display: block;
+}
+
+.content {
+  flex: 1;
+  background-color: red;
+  transition: all 0.3s ease;
+}
+.projects {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    max-height: 100%;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+/* To remove default styles */
+.add-project {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+}
+
+.add-project {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border: 1px solid #1f2937;
+    padding: 0.5rem;
+    gap: 1rem;
+    border-radius: 1rem;
+    transition: color 0.1s ease-in;
+
+    &:hover {
+        color: #22c55e;
+    }
+}
+
+.add-project > i {
+    border: 1px solid black;
+    padding: 2px;
+    border-radius: 100%;
+}
+
+form.project-form {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    flex-wrap: wrap;
+}
+
+form.project-form input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #1f2937;
+    border-radius: 0.5rem;
+    width: 100%;
+}
+
+form.project-form button {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    background-color: #22c55e;
+    border: 1px solid #1f2937;
+    border-radius: 0.5rem;
+    flex-shrink: 0;
+}
+
+.project {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #f3f4f6;
+  border-radius: 6px;
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  color: #1f2937;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s ease;
+}
+
+.project:hover {
+  background-color: #e5e7eb;
+}
+
+.project i {
+  color: #22c55e;
+  font-size: 1.2rem;
+}
+
+.projectsList {
+    display: flex;
+    flex-wrap: wrap;         
+    gap: 0.5rem;
+    overflow-y: auto; 
 }
