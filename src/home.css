@@ -79,35 +79,49 @@ header {
     border: 1px solid #1f2937;
     border-radius: 100%;
 }
-main{
+
+main {
     position: fixed;
     width: 100%;
     top: calc(var(--header-height) + 1.5rem);
     left: 0;
     height: calc(100vh - calc(var(--header-height) + 1.5rem));
 }
-.main-container{
-    display: flex;
+
+.main-container {
+    position: relative;
     height: 100%;
+    overflow: hidden;
 }
+
 .sidebar {
-    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 25%;
     height: 100%;
     background: #ffffff;
     border-right: 1px solid #22c55e;
+    box-sizing: border-box;
     padding: 0.75rem;
+
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 5;
 }
 
 .sidebar.active {
-    display: block;
+    transform: translateX(0);
 }
 
 .content {
-  flex: 1;
-  background-color: red;
-  transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
 }
+
 .projects {
     display: flex;
     flex-direction: column;
@@ -115,6 +129,10 @@ main{
     max-height: 100%;
     gap: 0.5rem;
     width: 100%;
+}
+
+.sidebar h2 {
+    margin-bottom: 1rem;
 }
 
 /* To remove default styles */
@@ -143,7 +161,7 @@ main{
     }
 }
 
-.add-project > i {
+.add-project>i {
     border: 1px solid black;
     padding: 2px;
     border-radius: 100%;
@@ -153,7 +171,7 @@ form.project-form {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 1rem;
+    padding: 0.25rem;
     flex-wrap: wrap;
 }
 
@@ -175,33 +193,50 @@ form.project-form button {
 }
 
 .project {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  background-color: #f3f4f6;
-  border-radius: 6px;
-  font-family: Arial, sans-serif;
-  font-size: 1rem;
-  color: #1f2937;
-  cursor: pointer;
-  user-select: none;
-  transition: background-color 0.2s ease;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+    padding: 0.5rem 1rem;
+    background-color: #f3f4f6;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    font-size: 1rem;
+    color: #1f2937;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s ease;
 }
 
-.project:hover {
-  background-color: #e5e7eb;
+.project:hover:not(:has(.delete-project-btn:hover)) {
+    background-color: #e5e7eb;
 }
-
+.project.selected {
+    background-color: #cbd5e1;
+}
 .project i {
-  color: #22c55e;
-  font-size: 1.2rem;
+    color: #22c55e;
+    font-size: 1.2rem;
 }
-
 .projectsList {
     display: flex;
-    flex-wrap: wrap;         
+    flex-wrap: wrap;
     gap: 0.5rem;
-    overflow-y: auto; 
+    overflow-y: auto;
+    margin-bottom: 5rem;
+}
+
+.delete-project-btn{
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
+}
+.delete-project-btn:hover{
+    color: red;
+}
+@media (width < 648px) {
+    .sidebar {
+        width: 100%;
+    }
 }

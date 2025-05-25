@@ -1,4 +1,4 @@
-export default function createTodoForm() {
+export default function createTodoForm({ onSubmit, onCancel }) {
     const form = document.createElement("div");
     form.className = "todo-form";
 
@@ -41,16 +41,14 @@ export default function createTodoForm() {
         const details = document.getElementById("detailsoptional").value.trim();
         const date = document.getElementById("date").value;
         if (!title) return alert("Title is required!");
-        console.log({ title, details, date });
+        onSubmit && onSubmit({ title, details, dueDate: date });
     };
 
     const cancelButton = document.createElement("button");
     cancelButton.textContent = "Cancel";
     cancelButton.className = "cancel-btn";
     cancelButton.onclick = () => {
-        document.getElementById("title").value = "";
-        document.getElementById("detailsoptional").value = "";
-        document.getElementById("date").value = "";
+        onCancel && onCancel();
     };
 
     actions.appendChild(addButton);
