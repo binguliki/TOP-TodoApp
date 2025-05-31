@@ -89,7 +89,7 @@ const createTaskContainer = (id) => {
   todoLists.className = 'todosList';
 
   button.onclick = () => {
-    const { dialog, inputs } = createTodoForm();
+    const { dialog, inputs } = createTodoForm('Create new task');
     container.appendChild(dialog);
     const dialogForm = dialog.querySelector('form');
 
@@ -104,6 +104,7 @@ const createTaskContainer = (id) => {
         description: inputs.description.value,
         notes: inputs.notes.value,
       };
+
       controller.createTodo(id, data);
       renderTodos(id);
       dialog.remove();
@@ -155,10 +156,32 @@ function createTodoCard(todo, todoId, projectId) {
 
   const edit = document.createElement("i");
   edit.className = "fa-solid fa-pen action-icon";
+  const taskContainer = document.querySelector('.task-container');
+
   edit.onclick = (e) => {
     e.stopPropagation();
-    alert("Edit clicked for: " + todo.getProperty('title'));
-  };
+    const { dialog, inputs } = createTodoForm('Edit Task', todo);
+    taskContainer.appendChild(dialog);
+    const dialogForm = dialog.querySelector('form');
+
+    dialogForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      dialog.close();
+
+      const data = {
+        title: inputs.title.value,
+        dueDate: inputs.dueDate.value,
+        priority: inputs.priority.value,
+        description: inputs.description.value,
+        notes: inputs.notes.value,
+      };
+      
+      controller.updateTodo(projectId, todoId, data);
+      renderTodos(projectId);
+      dialog.remove();
+    });
+    dialog.showModal();
+  }
 
   const del = document.createElement("i");
   del.className = "fa-solid fa-trash action-icon";
@@ -354,7 +377,15 @@ const renderProjects = () => {
       heading.textContent = project.name;
       taskContainer.prepend(heading);
       contentContainer.append(taskContainer);
+      renderTodos(id);
     }
     projectsList.append(projectElement);
   });
 };
+
+window.onload = () => {
+  controller.loadFromStorage()
+  renderProjects();
+};
+window.onbeforeunload = () => controller.saveToStorage();
+document.onvisibilitychange = () => controller.saveToStorage();

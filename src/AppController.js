@@ -2,6 +2,7 @@ import Project from './Project';
 import TodoItem from './TodoItem';
 
 const AppController = () => {
+    const STORAGE_KEY = 'todoApp_projects';
     const projects = {};
 
     const getProjects = () => {
@@ -44,7 +45,52 @@ const AppController = () => {
     const getTodos = (projectId) => {
         return projects[projectId]?.getTodos() || {};
     };
+    const saveToStorage = () => {
+        const dataToSave = {};
+        Object.entries(projects).forEach(([projectId, project]) => {
+            dataToSave[projectId] = {
+                name: project.name,
+                todos: {}
+            };
+            Object.entries(project.getTodos()).forEach(([todoId, todo]) => {
+                dataToSave[projectId].todos[todoId] = {
+                    title: todo.getProperty('title'),
+                    dueDate: todo.getProperty('dueDate'),
+                    priority: todo.getProperty('priority'),
+                    checked: todo.getProperty('checked'),
+                    description: todo.getProperty('description'),
+                    notes: todo.getProperty('notes')
+                };
+            });
+        });
 
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
+    };
+    const loadFromStorage = () => {
+        const savedData = localStorage.getItem(STORAGE_KEY);
+        if (!savedData) {
+            return false;
+        }
+        const parsedData = JSON.parse(savedData);
+        Object.entries(parsedData).forEach(([projectId, projectData]) => {
+            const project = new Project(projectData.name);
+
+            Object.entries(projectData.todos).forEach(([todoId, todoData]) => {
+                const todo = new TodoItem({
+                    title: todoData.title,
+                    dueDate: todoData.dueDate,
+                    priority: todoData.priority,
+                    checked: todoData.checked,
+                    description: todoData.description,
+                    notes: todoData.notes
+                });
+                project.todos[todoId] = todo;
+            });
+
+            projects[projectId] = project;
+        });
+        return true;
+    };
     return {
         getProjects,
         createProject,
@@ -53,7 +99,9 @@ const AppController = () => {
         updateTodo,
         deleteTodo,
         toggleTodo,
-        getTodos
+        getTodos,
+        saveToStorage,
+        loadFromStorage
     };
 };
 
