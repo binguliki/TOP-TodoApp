@@ -18,8 +18,8 @@ const AppController = () => {
     };
 
     const createTodo = (projectId, data) => {
-        const newTodo = new TodoItem(data);
-        projects[projectId].addTodos(newTodo);
+        const newTodo = new TodoItem({ ...data });
+        projects[projectId].addTodo(newTodo);
     };
 
     const updateTodo = (projectId, todoId, updatedData = {}) => {
@@ -31,13 +31,13 @@ const AppController = () => {
     };
 
     const deleteTodo = (projectId, todoId) => {
-        projects[projectId].removeTodos(todoId);
+        projects[projectId].removeTodo(todoId);
     };
 
     const toggleTodo = (projectId, todoId) => {
         const todo = projects[projectId].getTodo(todoId);
         if (!todo) return;
-        const checkedStatus = todo.getStatus();
+        const checkedStatus = todo.getProperty('checked');
         todo.setProperty('checked', !checkedStatus);
     };
 

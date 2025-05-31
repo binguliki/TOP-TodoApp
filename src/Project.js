@@ -7,8 +7,11 @@ export default class Project{
     getTodos(){
         return this.todos;
     }
+    getTodo(id){
+        return this.todos[id];
+    }
     addTodo(todo){
-        this.todos[crypto.randomUUID] = todo;
+        this.todos[crypto.randomUUID()] = todo;
     }
     removeTodo(todoId){
         delete this.todos[todoId];
