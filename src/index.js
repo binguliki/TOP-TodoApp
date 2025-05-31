@@ -104,6 +104,7 @@ const createTaskContainer = (id) => {
         description: inputs.description.value,
         notes: inputs.notes.value,
       };
+      console.log(inputs.description.value);
 
       controller.createTodo(id, data);
       renderTodos(id);
@@ -207,11 +208,11 @@ function createTodoCard(todo, todoId, projectId) {
 }
 
 function openTodoDialog(todo, todoId, projectId) {
-  const taskContainer = document.querySelector('.task-container');
+  const taskContainer = document.querySelector('.content');
   const overlay = document.createElement("div");
   overlay.className = "dialog-overlay";
   overlay.style.cssText = `
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
@@ -290,7 +291,8 @@ function openTodoDialog(todo, todoId, projectId) {
       ${todo.getProperty('description') ? `
         <div>
           <strong style="color: #555;">Description:</strong>
-          <p style="margin: 8px 0 0 0; color: #666; line-height: 1.5;">
+          <p style="white-space: pre-wrap; border: 1px solid black; border-radius: 1rem; margin: 8px 0 0 0; color: #666; line-height: 1.5;
+          padding: 0.5rem; max-height: 200px; overflow-y: auto;">
             ${todo.getProperty('description')}
           </p>
         </div>
